@@ -11,7 +11,8 @@ namespace Game
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
+            var controller = new Controller();
+            Application.Run(controller.MainForm);
         }
     }
 }
