@@ -13,6 +13,7 @@ namespace Game.Domain
             "Жми Enter чтобы начать играть!");
 
         public const string GameOver = "Игра окончена!";
+        public const string PlayMusic = @"Нажмите английскую кнопку M, чтобы включить\выключить музыку.";
         public const string YourPoints = "Твой счёт: {0}, рекорд: {1}!";
         public const string Restart = "Нажми Enter чтобы начать сначала!";
         public const string TextPart = "Текст:";

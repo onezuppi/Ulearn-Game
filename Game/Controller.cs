@@ -9,6 +9,7 @@ namespace Game
     {
         private const bool IsDebug = false;
         public readonly GameModel Game;
+        private readonly MusicPlayer musicPlayer;
         public Form MainForm { get; }
         private bool isAutoGame;
 
@@ -16,6 +17,7 @@ namespace Game
         public Controller()
         {
             Game = new GameModel();
+            musicPlayer = new MusicPlayer();
             MainForm = new MainForm(this);
             var timer = new Timer {Interval = 20};
             timer.Tick += Update;
@@ -31,6 +33,13 @@ namespace Game
 
         public void OnKeyDown(KeyEventArgs e)
         {
+            if (e.KeyCode == Keys.M)
+                if (musicPlayer.IsPlaying)
+                    musicPlayer.Stop();
+                else
+                    musicPlayer.Start();
+            
+            
             if (Game.IsPlaying)
             {
                 if (isAutoGame)

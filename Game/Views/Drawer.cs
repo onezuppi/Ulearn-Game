@@ -9,7 +9,7 @@ namespace Game.Views
     {
         private protected Size Size;
         protected readonly GameModel Game;
-        protected (int Large, int Medium, int Smal) FontSize;
+        protected (int Large, int Medium, int Smal, int ExtraSmal) FontSize;
 
         protected Drawer(Size size, GameModel game)
         {
@@ -23,6 +23,7 @@ namespace Game.Views
             FontSize.Large = (formSize.Height + formSize.Width) / 20;
             FontSize.Medium = FontSize.Large / 2;
             FontSize.Smal = FontSize.Medium / 2;
+            FontSize.ExtraSmal = FontSize.Smal / 2;
         }
 
         protected void DrawText(PaintEventArgs e, Color color, string text, int fontSize, int shiftXFromCenter = 0,

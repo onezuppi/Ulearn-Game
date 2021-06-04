@@ -57,6 +57,7 @@
     <Compile Include="Domain\ILevelGenerator.cs" />
     <Compile Include="Domain\Levels.cs" />
     <Compile Include="Domain\LevelGenerator.cs" />
+    <Compile Include="Domain\MusicPlayer.cs" />
     <Compile Include="Domain\RecordSaver.cs" />
     <Compile Include="Views\Colors.cs" />
     <Compile Include="Views\Drawer.cs" />

@@ -19,8 +19,12 @@ namespace Game.Views
             levelDrawer.SetSize(formSize);
         }
 
-        public void DrawStartScreen(PaintEventArgs e) =>
+        public void DrawStartScreen(PaintEventArgs e)
+        {
             DrawText(e, Colors.Information, GameInscriptions.GameRules, FontSize.Smal);
+            DrawText(e, Colors.Information, GameInscriptions.PlayMusic, FontSize.ExtraSmal, shiftYFromCenter:Size.Height / 3);
+        }
+            
 
         public void DrawPlayingScreen(PaintEventArgs e) => levelDrawer.Draw(e);
 
