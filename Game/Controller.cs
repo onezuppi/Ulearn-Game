@@ -7,8 +7,11 @@ namespace Game
 {
     public class Controller
     {
+        private const bool IsDebug = false;
         public readonly GameModel Game;
         public Form MainForm { get; }
+        private bool isAutoGame;
+        
 
         public Controller()
         {
@@ -28,7 +31,11 @@ namespace Game
         
         public void OnKeyDown(KeyEventArgs e)
         {
-            if(Game.IsPlaying) 
+            if (Game.IsPlaying)
+            {
+                if (isAutoGame)
+                    Game.MakeMove(Game.CurrentLevel.Answer);
+
                 switch (e.KeyCode)
                 {
                     case Keys.Left:
@@ -37,7 +44,11 @@ namespace Game
                     case Keys.Right:
                         Game.MakeMove(true);
                         break;
+                    case Keys.R when IsDebug:
+                        isAutoGame = !isAutoGame;
+                        break;
                 }
+            }
             else if (e.KeyCode == Keys.Enter)
                 Game.Start();
         }

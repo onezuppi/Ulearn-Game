@@ -13,7 +13,7 @@ namespace Game.Domain
             "Жми Enter чтобы начать играть!");
 
         public const string GameOver = "Игра окончена!";
-        public const string YourPoints = "Твои очки: {0}!";
+        public const string YourPoints = "Твой счёт: {0}!";
         public const string Restart = "Нажми Enter чтобы начать сначала!";
     }
 }

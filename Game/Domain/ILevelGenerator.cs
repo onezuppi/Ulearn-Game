@@ -2,6 +2,6 @@ namespace Game.Domain
 {
     public interface ILevelGenerator
     {
-        Level Generate();
+        LevelBase Generate(int complexity);
     }
 }

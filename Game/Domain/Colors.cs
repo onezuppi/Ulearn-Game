@@ -8,7 +8,7 @@ namespace Game.Domain
         {
             ("Красный", Color.Red), ("Зелёный", Color.Green), ("Синий", Color.Blue),
             ("Розовый", Color.DeepPink), ("Оранжевый", Color.Orange), ("Фиолетовый", Color.DarkViolet),
-            ("Жёлтый", Color.Yellow), ("Черный", Color.Black)
+            ("Жёлтый", Color.Yellow)
         };
     }
 }

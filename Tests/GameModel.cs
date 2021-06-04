@@ -14,7 +14,7 @@ namespace Tests
             var game = new Game.Domain.GameModel();
             Assert.Zero(game.Points);
             Assert.AreEqual(GameStage.Main, game.Stage);
-            Assert.AreEqual(100, game.Time);
+            Assert.AreEqual(0, game.Time);
             Assert.IsFalse(game.IsPlaying);
             Assert.IsNull(game.CurrentLevel);
         }
@@ -49,7 +49,7 @@ namespace Tests
 
         [Test]
         public void MakeMove_ShouldGetNextRound_WhenCorrectAnswers() =>
-            TestMakeMove_ShouldGetNextRound_WhenCorrectAnswers(GetStartedGame());
+            TestMakeMove_ShouldGetNextRound_WhenCorrectAnswers(GetStartedGame(), MoveCount);
 
 
         [Test]
@@ -138,12 +138,13 @@ namespace Tests
         private static void TestMakeMove_ShouldGetNextRound_WhenCorrectAnswers(Game.Domain.GameModel game,
             int iterationCount = 1)
         {
+            var points = game.Points;
             for (var i = 0; i < iterationCount; i++)
             {
-                var points = game.Points;
                 var level = game.CurrentLevel;
                 game.MakeMove(game.CurrentLevel.Answer);
-                Assert.AreEqual(points + 1, game.Points);
+                points += level.Reward;
+                Assert.AreEqual(points, game.Points);
                 Assert.AreNotEqual(level, game.CurrentLevel);
             }
         }

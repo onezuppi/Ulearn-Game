@@ -5,14 +5,16 @@ namespace Game.Domain
     public class GameModel
     {
         private const double OneLoopTime = 0.5;
+        private const int MaxComplexity = 6;
+
         private readonly LevelGenerator generator = new LevelGenerator();
         public GameStage Stage { get; private set; } = GameStage.Main;
-        public double Time { get; private set; } = 100;
-
-        public Level CurrentLevel { get; private set; }
+        public double Time { get; private set; }
+        public LevelBase CurrentLevel { get; private set; }
         public int Points { get; private set; }
 
         public bool IsPlaying => Stage == GameStage.Playing;
+
 
         public void Start()
         {
@@ -20,24 +22,24 @@ namespace Game.Domain
                 throw new GameExceptions.GameStageMustNotBePlayingException();
             Stage = GameStage.Playing;
             Points = 0;
-            ResetTime();
-            CurrentLevel = generator.Generate();
+            Time = 100;
+            CurrentLevel = generator.Generate(MaxComplexity);
         }
 
         public void NextRound()
         {
             if (!IsPlaying)
                 throw new GameExceptions.GameStageMustBePlayingException();
-            Points++;
-            ResetTime();
-            CurrentLevel = generator.Generate();
+            Points += CurrentLevel.Reward;
+            UpdateTime();
+            CurrentLevel = generator.Generate(MaxComplexity);
         }
 
         public void MakeMove(bool move)
         {
             if (!IsPlaying)
                 throw new GameExceptions.GameStageMustBePlayingException();
-            if(move == CurrentLevel.Answer)
+            if (move == CurrentLevel.Answer)
                 NextRound();
             else
                 Over();
@@ -51,14 +53,14 @@ namespace Game.Domain
             if (Time <= 0)
                 Over();
         }
-        
-        private void ResetTime()
+
+        private void UpdateTime()
         {
             if (!IsPlaying)
                 throw new GameExceptions.GameStageMustBePlayingException();
-            Time = Math.Max(Math.Min(Time + 50 / (Points + 1), 100), 45);
+            Time = Math.Max(Math.Min(Time + 50 / (Points + 1), 100), 60);
         }
-        
+
         private void Over()
         {
             if (!IsPlaying)
