@@ -10,7 +10,6 @@ namespace Game.Views
         private const int UpdateForEveryIteration = 3;
 
         public readonly LevelBase Level;
-        public string Task { get; private set; }
         public Color TaskColor { get; private set; }
 
         public (double X, double Y) ShiftRatio { get; private set; } = (0, 0);
@@ -24,21 +23,23 @@ namespace Game.Views
 
         private const double MaxJumpRatio = 0.2;
         private readonly Random generator = new Random();
+        private (string PartName, string ColorName) task = (GameInscriptions.TextPart, "");
 
         private (bool IsIncreasing, double Ratio, double Min, double Max, double Delta) size = (false, 1, 0.95, 1.05,
             0.01);
 
         private int opacity = 100;
-        private int iteration = 0;
+        private int iteration;
 
         public double SizeRatio => size.Ratio;
+        public string Task =>  $"{task.PartName}\n\t{task.ColorName}";
 
         public LevelProperties(LevelBase level)
         {
             Level = level;
             if (level != null)
             {
-                (Task, TaskColor) = (level.ColorName, level.Color);
+                (task.ColorName, TaskColor) = (level.ColorName, level.Color);
                 ConfigureLevel();
             }
         }
@@ -63,7 +64,7 @@ namespace Game.Views
         private void ConfigureLevel()
         {
             if (Level.Is(Levels.LevelType.MirroredLevel))
-                Task = new string(Task.Reverse().ToArray());
+                task.ColorName = new string(task.ColorName.Reverse().ToArray());
 
             if (Level.Is(Levels.LevelType.OpacityLevel))
                 TaskColor = Color.FromArgb(generator.Next(80, 100), TaskColor.R, TaskColor.G, TaskColor.B);
@@ -72,20 +73,22 @@ namespace Game.Views
                 TaskFontStyle = FontStyle.Strikeout;
 
             if (Level.Is(Levels.LevelType.WithoutSeveralLettersLevel))
-                Task = string.Join("", Task.Select(x => generator.Next(0, 100) > 70 ? '_' : x));
+                task.ColorName = string.Join("", task.ColorName.Select(x => generator.Next(0, 100) > 70 ? '_' : x));
 
             if (Level.Is(Levels.LevelType.VerticalLevel))
                 (TaskStringFormat.FormatFlags, size.Ratio) = (StringFormatFlags.DirectionVertical, 0.5);
 
             if (Level.Is(Levels.LevelType.TimeBarLevel))
-                (TimeBarBrush, TaskColor, Task) = (new SolidBrush(TaskColor), Colors.TimeBar, $"Таймбар:\n\t{Task}");
+                (TimeBarBrush, TaskColor, task.PartName) = (new SolidBrush(TaskColor), Colors.TimeBar,
+                    GameInscriptions.TimeBarPart);
 
             else if (Level.Is(Levels.LevelType.PointsLevel))
-                (PointsBrush, TaskColor, Task) = (new SolidBrush(TaskColor), Colors.Information, $"Счёт:\n\t{Task}");
-            
+                (PointsBrush, TaskColor, task.PartName) = (new SolidBrush(TaskColor), Colors.Information,
+                    GameInscriptions.PointsPart);
+
             else if (Level.Is(Levels.LevelType.ReversedLevel))
-                (Task, Background, TaskColor, TimeBarBrush) =
-                    ($"Фон: {Task}", TaskColor, Background, new SolidBrush(Background));
+                (task.PartName, Background, TaskColor, TimeBarBrush) =
+                    (GameInscriptions.BackgroundPart, TaskColor, Background, new SolidBrush(Background));
         }
 
         private void CalculateParamsForShiverLevel()

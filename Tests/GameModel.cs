@@ -95,6 +95,20 @@ namespace Tests
         }
 
         [Test]
+        public void Record_ShouldBeDeleted() => GetStartedGameWithoutRecord();
+
+
+        [Test]
+        public void Record_ShouldBeSaved() => GetStartedGameWithRecord();
+
+        [Test]
+        public void Record_ShouldBeDeletedAfterSaving()
+        {
+            GetStartedGameWithRecord();
+            GetStartedGameWithoutRecord();
+        }
+
+        [Test]
         public void Game_Test()
         {
             var generator = new Random();
@@ -120,9 +134,26 @@ namespace Tests
             }
         }
 
-        private static Game.Domain.GameModel GetStartedGame()
+        private static Game.Domain.GameModel GetStartedGameWithoutRecord()
         {
-            var game = new Game.Domain.GameModel();
+            var game = GetStartedGame(true);
+            Assert.Zero(game.Record);
+            return game;
+        }
+
+        private static void GetStartedGameWithRecord()
+        {
+            var game = GetStartedGameWithoutRecord();
+            TestMakeMove_ShouldGetNextRound_WhenCorrectAnswers(game);
+            var record = game.Points;
+            game = GetStartedGame();
+            Assert.AreEqual(record, game.Record);
+        }
+
+
+        private static Game.Domain.GameModel GetStartedGame(bool deleteSavedRecord = false)
+        {
+            var game = new Game.Domain.GameModel(deleteSavedRecord);
             game.Start();
             return game;
         }

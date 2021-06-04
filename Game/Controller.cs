@@ -11,7 +11,7 @@ namespace Game
         public readonly GameModel Game;
         public Form MainForm { get; }
         private bool isAutoGame;
-        
+
 
         public Controller()
         {
@@ -21,14 +21,14 @@ namespace Game
             timer.Tick += Update;
             timer.Start();
         }
-        
+
         private void Update(object sender, EventArgs e)
         {
             if (Game.IsPlaying)
                 Game.MakeGameLoop();
             MainForm.Invalidate();
         }
-        
+
         public void OnKeyDown(KeyEventArgs e)
         {
             if (Game.IsPlaying)

@@ -8,12 +8,20 @@ namespace Game.Domain
         private const int MaxComplexity = 6;
 
         private readonly LevelGenerator generator = new LevelGenerator();
+
+        private readonly RecordSaver recordSaver;
         public GameStage Stage { get; private set; } = GameStage.Main;
         public double Time { get; private set; }
         public LevelBase CurrentLevel { get; private set; }
         public int Points { get; private set; }
 
         public bool IsPlaying => Stage == GameStage.Playing;
+        public int Record => recordSaver.Record;
+
+        public GameModel(bool deleteSavedRecord = false)
+        {
+            recordSaver = new RecordSaver(deleteSavedRecord);
+        }
 
 
         public void Start()
@@ -43,6 +51,7 @@ namespace Game.Domain
                 NextRound();
             else
                 Over();
+            recordSaver.UpdateRecord(Points);
         }
 
         public void MakeGameLoop()

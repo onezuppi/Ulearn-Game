@@ -27,7 +27,7 @@ namespace Game.Views
         public void DrawFinishScreen(PaintEventArgs e)
         {
             const int shiftFromCenter = 120;
-            var text = string.Format(GameInscriptions.YourPoints, Game.Points);
+            var text = string.Format(GameInscriptions.YourPoints, Game.Points, Game.Record);
             DrawText(e, Colors.Information, GameInscriptions.GameOver, FontSize.Large,
                 shiftYFromCenter: -shiftFromCenter);
             DrawText(e, Colors.Information, text, FontSize.Medium);
